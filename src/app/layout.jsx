@@ -1,4 +1,7 @@
 import "./globals.css";
+import { AuthProvider } from "@/context";
+import { Navbar } from '../components/Navbar'
+import { BillsProvider } from "@/context/BillsContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -9,7 +12,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-gray-900 text-white container mx-auto">
-        {children}
+
+        <AuthProvider>
+          <BillsProvider>
+            {children}
+          </BillsProvider>
+        </AuthProvider>
       </body>
     </html>
   );

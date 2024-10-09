@@ -8,9 +8,16 @@ import User from '../../../model/auth'
 import generatorToken from '../../../lib/jwt'
 // Hashed password
 import bcrypt from 'bcrypt'
-
+// Cookies de nexjs
 import { cookies } from 'next/headers'
+// Mi context
+import {useAuth} from '../../../context/AuthContext'
 
+export async function GET(request) { 
+  return new Response(JSON.stringify({
+    message: 'Hello World'
+  }), { status: 200 } );
+}
 //LOGIN, 
 export async function PUT(request) {
     try {
