@@ -31,6 +31,7 @@ export async function POST(request) {
     try {
         connectDB()
         const data = await request.json();
+        console.log(data)
         const token = cookies().get('token').value;
         const user = jwt.verify(token, process.env.JWT_SECRET)
         // console.log(user.id)
