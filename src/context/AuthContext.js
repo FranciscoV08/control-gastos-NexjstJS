@@ -19,13 +19,16 @@ export const AuthProvider = ({ children }) => {
     
     const [user, setUser] = useState({})
     const [isAutenticate, setIsAutenticate] = useState(false)
+
+
     
     const login = async (user) => {
         try {            
             const response = await axios.put("/api/auth", user)
             // necesitamos guardar esos datos del usuario
             setUser(response.data.user)
-            console.log(response)
+            setIsAutenticate(true)
+            // console.log(response.data.user)
             return response
         } catch (error) {
             console.log(error)
@@ -34,7 +37,9 @@ export const AuthProvider = ({ children }) => {
     const register = async (user) =>{
         try {
             const resp = await axios.post("/api/auth", user)
+            setIsAutenticate(true)
             console.log('Registrando el usuario', resp)
+            return resp
         } catch (error) {
             console.log(error)
         }
@@ -46,15 +51,15 @@ export const AuthProvider = ({ children }) => {
       const { token } = Cookie.get();
       if(!token){
         console.log("no existe el token")
+        setIsAutenticate(false)
       }
       //Si existe el token
       if (token) {
         const res = await axios.get("/api/check");
-        const {data} = res
 
 
         setIsAutenticate(true)
-        setUser(data)
+        setUser(res.data)
 
         // console.log(data)
         // setIsAutenticate(true);
@@ -66,7 +71,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
     
 
-  
+  const logout = () =>{
+    Cookie.remove('token')
+    setIsAutenticate(false)
+  }
 
 
     return (
@@ -75,6 +83,7 @@ export const AuthProvider = ({ children }) => {
             setUser,
             login,
             register,
+            logout,
             isAutenticate
         }}>
         {children}

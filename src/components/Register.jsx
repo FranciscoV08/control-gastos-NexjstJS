@@ -4,9 +4,11 @@
 import { useState } from "react"
 // Mi contex
 import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
 
 export const Register = () => {
 
+  const router = useRouter()
 
     const [user, setUser] = useState()
     const [password, setPassword] = useState()
@@ -14,7 +16,7 @@ export const Register = () => {
 
     const {register} = useAuth()
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
         e.preventDefault()
 
         const newUser = {
@@ -22,7 +24,17 @@ export const Register = () => {
             password,
             email
         }
-        register(newUser)
+        try {          
+          const res = await register(newUser)
+          // rediccionamos 
+          if (res) {
+            router.push("/page/dashboard")
+          }
+          // router.push("/page/home");
+          // console.log(res);
+        } catch (error) {
+          console.log(error)
+        }
     }
 
   return (

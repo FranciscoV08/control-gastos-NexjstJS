@@ -12,10 +12,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-gray-900 text-white container mx-auto">
-
         <AuthProvider>
           <BillsProvider>
-            {children}
+            <nav>
+              <Navbar />
+            </nav>
+            <main>
+              {children}
+            </main>
+            <footer></footer>
           </BillsProvider>
         </AuthProvider>
       </body>
